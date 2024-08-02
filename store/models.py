@@ -32,6 +32,7 @@ class Favorite(models.Model):
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 class Cart(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=1)
@@ -51,3 +52,23 @@ class Coupon(models.Model):
     discount = models.PositiveSmallIntegerField(default=0)
     expire_date = models.DateTimeField()
 
+class Order(models.Model):
+
+    ORDER_TYPE_CHOISSES = [
+        (0, 'delivery'),
+        (1, 'drive thru') 
+    ]
+
+    PAYMENT_METHOD_CHOISSES = [
+        (0, 'cash'),
+        (1, 'Card') 
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
+    type = models.SmallIntegerField(choices=ORDER_TYPE_CHOISSES, default='delivery')
+    price_delivery = models.IntegerField(null=True, blank=True)
+    price = models.FloatField()
+    payment_type = models.SmallIntegerField(choices=PAYMENT_METHOD_CHOISSES)
+    coupon = models.ForeignKey(Coupon, null=True, blank=True, on_delete=models.SET_NULL)
+    date_time = models.DateTimeField(auto_now_add=True)

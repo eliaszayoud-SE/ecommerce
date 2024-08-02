@@ -114,7 +114,7 @@ def add_to_cart(request):
 
 
     try:
-        cart = Cart.objects.get(user_id=user_id, product_id=product_id)
+        cart = Cart.objects.get(user_id=user_id, product_id=product_id, order_id=None)
         cart.qty += 1
         cart.save()
     except:
@@ -131,7 +131,7 @@ def delete_from_cart(request):
 
 
     try:
-        cart = Cart.objects.get(user_id=user_id, product_id=product_id)
+        cart = Cart.objects.get(user_id=user_id, product_id=product_id, order_id=None)
         if(cart.qty> 0):
             cart.qty -= 1
             if(cart.qty==0):
@@ -155,7 +155,7 @@ def get_count_cart(request):
     product_id = request.query_params.get('productId')   
 
     try:
-        cart = Cart.objects.get(user_id=user_id, product_id=product_id)
+        cart = Cart.objects.get(user_id=user_id, product_id=product_id, order_id=None)
         return Response({'qty':cart.qty})
         
 
@@ -166,7 +166,7 @@ def get_count_cart(request):
 @permission_classes([IsAuthenticated]) 
 def view_cart(request):
     user_id = request.user.id
-    cart =  Cart.objects.select_related('product__category').filter(user_id=user_id)
+    cart =  Cart.objects.select_related('product__category').filter(user_id=user_id, order_id=None)
     
     cart_serializer = CartViewSerializer(cart, many=True)
     total_price = sum([cart['total_price'] for cart in cart_serializer.data])
@@ -250,4 +250,19 @@ def check_coupon(request):
             'detali':'No Coupon with the given name'
         })
   
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def checkout(request):
+    user_id = request.user.id
+    address_id = request.data.get('address_id')
+    type = request.data.get('type')
+    price_delivery = request.data.get('price_delivery')
+    price = request.data.get('price')
+    payment_type = request.data['payment_type']
+    coupon_id = request.data.get('coupon_id')
 
+    order = Order.objects.create(user_id=user_id, price_delivery=price_delivery,address_id=address_id, type=type, price=price, payment_type=payment_type, coupon_id=coupon_id)
+    
+    Cart.objects.filter(user_id=user_id, order_id=None).update(order_id=order.id)
+    
+    return Response(status=status.HTTP_204_NO_CONTENT)

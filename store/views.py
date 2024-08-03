@@ -275,7 +275,7 @@ def checkout(request):
 
     else :
         
-        total_price = total_price - (price * discount_pricegit / 100)   
+        total_price = total_price - (price * discount_price / 100)   
         print(total_price)
         coupon = coupon.first()
         if(coupon.count > 0):

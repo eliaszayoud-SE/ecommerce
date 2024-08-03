@@ -23,7 +23,8 @@ urlpatterns = [
     path('view_address/', views.view_address),
     path('check_coupon/', views.check_coupon),
     path('checkout/', views.checkout),
-    path('view_order/', views.view_order),
+    path('view_order/', views.view_pending_order),
+    path('view_archive_order/', views.view_archive_order),
 ]
 
 urlpatterns += router.urls

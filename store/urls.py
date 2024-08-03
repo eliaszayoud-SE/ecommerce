@@ -22,7 +22,8 @@ urlpatterns = [
     path('delete_address/', views.delete_address),
     path('view_address/', views.view_address),
     path('check_coupon/', views.check_coupon),
-    path('checkout/', views.checkout)
+    path('checkout/', views.checkout),
+    path('view_order/', views.view_order),
 ]
 
 urlpatterns += router.urls

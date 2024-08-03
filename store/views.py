@@ -298,3 +298,11 @@ def checkout(request):
     except :
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def view_order(request):
+    user_id = request.user.id
+    order = Order.objects.filter(user_id=user_id)
+    order_serializer = OrderSerializer(order, many=True)
+
+    return Response({'order':order_serializer.data})

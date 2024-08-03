@@ -77,6 +77,6 @@ class Order(models.Model):
     price = models.FloatField()
     payment_type = models.SmallIntegerField(choices=PAYMENT_METHOD_CHOISSES)
     coupon = models.ForeignKey(Coupon, null=True, blank=True, on_delete=models.SET_NULL)
-    status = models.IntegerField(choices=ORDER_STATUS_CHOISES, default='Pending Approval')
+    status = models.SmallIntegerField(choices=ORDER_STATUS_CHOISES, default=0)
     date_time = models.DateTimeField(auto_now_add=True)
     total_price = models.FloatField(default=0)

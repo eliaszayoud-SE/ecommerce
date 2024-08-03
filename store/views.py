@@ -256,11 +256,11 @@ def checkout(request):
     user_id = request.user.id
     address_id = request.data.get('address_id')
     type = request.data.get('type')
-    price_delivery = int(request.data.get('price_delivery'))
-    price = int(request.data.get('price'))
+    price_delivery = float(request.data.get('price_delivery'))
+    price = float(request.data.get('price'))
     payment_type = request.data['payment_type']
     coupon_id = request.data.get('coupon_id') 
-    discount_price = int(request.data.get('discount_price'))
+    discount_price = float(request.data.get('discount_price'))
 
     if type == '1':
         price_delivery = 0
@@ -297,3 +297,15 @@ def checkout(request):
 
     except :
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+    {
+"address_id": "1", 
+"type": "0", 
+"price_delivery": "100", 
+"price": "2380.0", 
+"payment_type": "0", 
+"coupon_id": "1", 
+"discount_price": "10"
+}

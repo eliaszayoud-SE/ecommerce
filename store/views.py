@@ -298,14 +298,3 @@ def checkout(request):
     except :
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
-
-
-    {
-"address_id": "1", 
-"type": "0", 
-"price_delivery": "100", 
-"price": "2380.0", 
-"payment_type": "0", 
-"coupon_id": "1", 
-"discount_price": "10"
-}

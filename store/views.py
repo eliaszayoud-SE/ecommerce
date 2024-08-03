@@ -261,6 +261,14 @@ def checkout(request):
     payment_type = request.data['payment_type']
     coupon_id = request.data.get('coupon_id')
 
+    if coupon_id == '0' :
+        coupon_id = None
+
+    if price_delivery == '0' :
+        price_delivery = None  
+
+    
+
     order = Order.objects.create(user_id=user_id, price_delivery=price_delivery,address_id=address_id, type=type, price=price, payment_type=payment_type, coupon_id=coupon_id)
     
     Cart.objects.filter(user_id=user_id, order_id=None).update(order_id=order.id)

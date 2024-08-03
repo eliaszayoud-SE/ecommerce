@@ -259,10 +259,20 @@ def checkout(request):
     price_delivery = request.data.get('price_delivery')
     price = request.data.get('price')
     payment_type = request.data['payment_type']
-    coupon_id = request.data.get('coupon_id')
+    coupon_id = request.data.get('coupon_id') 
+    discount_price = request.data.get('discount_price')
 
-    if coupon_id == '0' :
+    total_price = price + price_delivery
+
+    coupon = Coupon.objects.filter(id=coupon_id, expire_date__gt=datetime.now(), count__gt=0)
+
+
+    if coupon_id == '0' or not coupon.exists():
         coupon_id = None
+
+    else :
+        total_price = total_price - ((price * discount_price) / 100)    
+
 
 
     if address_id == "0":
@@ -270,8 +280,7 @@ def checkout(request):
 
 
     try:
-        order = Order.objects.create(user_id=user_id, price_delivery=price_delivery,address_id=address_id, type=type, price=price, payment_type=payment_type, coupon_id=coupon_id)
-    
+        order = Order.objects.create(user_id=user_id, price_delivery=price_delivery,address_id=address_id, type=type, price=price, payment_type=payment_type, coupon_id=coupon_id, total_price=total_price)
 
         Cart.objects.filter(user_id=user_id, order_id=None).update(order_id=order.id)
     

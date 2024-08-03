@@ -262,6 +262,9 @@ def checkout(request):
     coupon_id = request.data.get('coupon_id') 
     discount_price = request.data.get('discount_price')
 
+    if type == '1':
+        price_delivery = 0
+
     total_price = price + price_delivery
 
     coupon = Coupon.objects.filter(id=coupon_id, expire_date__gt=datetime.now(), count__gt=0)
@@ -271,7 +274,11 @@ def checkout(request):
         coupon_id = None
 
     else :
-        total_price = total_price - ((price * discount_price) / 100)    
+        total_price = total_price - ((price * discount_price) / 100)   
+        coupon = coupon.first()
+        if(coupon.count > 0):
+            coupon.count -= 1
+            coupon.save() 
 
 
 

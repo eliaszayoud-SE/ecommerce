@@ -264,8 +264,6 @@ def checkout(request):
     if coupon_id == '0' :
         coupon_id = None
 
-    if price_delivery == '0' :
-        price_delivery = None  
 
     if address_id == "0":
         address_id = None    

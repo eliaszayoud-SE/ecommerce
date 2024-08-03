@@ -254,12 +254,19 @@ def check_coupon(request):
 @permission_classes([IsAuthenticated])
 def checkout(request):
     user_id = request.user.id
+    print(user_id)
     address_id = request.data.get('address_id')
+    print(address_id)
     type = request.data.get('type')
+    print(type)
     price_delivery = request.data.get('price_delivery')
+    print(price_delivery)
     price = request.data.get('price')
+    print(price)
     payment_type = request.data['payment_type']
+    print(payment_type)
     coupon_id = request.data.get('coupon_id')
+    print(coupon_id)
 
     if coupon_id == '0' :
         coupon_id = None
@@ -267,10 +274,11 @@ def checkout(request):
     if price_delivery == '0' :
         price_delivery = None  
 
-    
+    print('===================================')
 
     order = Order.objects.create(user_id=user_id, price_delivery=price_delivery,address_id=address_id, type=type, price=price, payment_type=payment_type, coupon_id=coupon_id)
-    
+    print('==========================rrrr=========')
+
     Cart.objects.filter(user_id=user_id, order_id=None).update(order_id=order.id)
     
     return Response(status=status.HTTP_204_NO_CONTENT)

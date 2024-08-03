@@ -64,6 +64,12 @@ class Order(models.Model):
         (1, 'Card') 
     ]
 
+    ORDER_STATUS_CHOISES = [
+        (0, 'Pending Approval'),
+        (1, 'The Order is Being Prepared'),
+        (2, 'On the Way'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
     type = models.SmallIntegerField(choices=ORDER_TYPE_CHOISSES, default='delivery')
@@ -71,5 +77,6 @@ class Order(models.Model):
     price = models.FloatField()
     payment_type = models.SmallIntegerField(choices=PAYMENT_METHOD_CHOISSES)
     coupon = models.ForeignKey(Coupon, null=True, blank=True, on_delete=models.SET_NULL)
+    status = models.IntegerField(choices=ORDER_STATUS_CHOISES, default='Pending Approval')
     date_time = models.DateTimeField(auto_now_add=True)
     total_price = models.FloatField(default=0)

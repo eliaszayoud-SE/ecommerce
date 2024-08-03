@@ -72,4 +72,4 @@ class CouponSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['id', 'user_id', 'address_id', 'type', 'price_delivery', 'price', 'payment_type', 'coupon_id', 'date_time', 'total_price']
+        fields = ['id', 'user_id', 'address_id', 'type', 'price_delivery', 'price', 'payment_type', 'coupon_id', 'status', 'date_time', 'total_price']

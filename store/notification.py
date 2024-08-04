@@ -13,16 +13,12 @@ conn = http.client.HTTPSConnection("fcm.googleapis.com")
 
 def _get_access_token():
   
-  print(os.environ.get('PRIVATE_KEY'))
-  private_key = os.environ.get('PRIVATE_KEY').replace('\\\n', '\n')
-
-  print(private_key)
 
   service_account_info = {
   "type": "service_account",
   "project_id": os.environ.get('PROJECT_ID'),
   "private_key_id": os.environ.get('PRIVATE_KEY_ID'),
-  "private_key": private_key.replace('\\\n', '\n'),
+  "private_key": os.environ.get('PRIVATE_KEY'),
   "client_email": os.environ.get('CLIENT_EMAIL'),
   "client_id": os.environ.get('CLIENT_ID'),
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -31,6 +27,9 @@ def _get_access_token():
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ypjlm%40ecommerce-31838.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com"
 }
+
+  print(service_account_info['private_key'])
+  service_account_info['private_key'] = str(service_account_info['private_key']).replace('''\\\n''', '''\n''')
 
   print(service_account_info)
 

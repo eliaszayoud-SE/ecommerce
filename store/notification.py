@@ -28,27 +28,15 @@ def _get_access_token():
   "universe_domain": "googleapis.com"
 }
 
-  print(service_account_info['private_key'])
 
-  print(service_account_info)
-
-  try:
-    credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
+  credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
   
-  except Exception as error:
-    print(error)
-
-  try:
-    request = google.auth.transport.requests.Request()
   
-  except Exception as error:
-    print(error)
-
-  try:
-    credentials.refresh(request)
+  request = google.auth.transport.requests.Request()
   
-  except Exception as error:
-    print(error)  
+  credentials.refresh(request)
+  
+ 
 
   return credentials.token
 

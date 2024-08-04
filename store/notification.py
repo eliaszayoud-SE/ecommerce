@@ -15,6 +15,8 @@ def _get_access_token():
   
   private_key = os.environ.get('PRIVATE_KEY').replace('''\\\n''', '''\\n''')
 
+  print(private_key)
+
   service_account_info = {
   "type": "service_account",
   "project_id": os.environ.get('PROJECT_ID'),
@@ -29,9 +31,24 @@ def _get_access_token():
   "universe_domain": "googleapis.com"
 }
 
-  credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
-  request = google.auth.transport.requests.Request()
-  credentials.refresh(request)
+  try:
+    credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
+  
+  except Exception as error:
+    print(error)
+
+  try:
+    request = google.auth.transport.requests.Request()
+  
+  except Exception as error:
+    print(error)
+
+  try:
+    credentials.refresh(request)
+  
+  except Exception as error:
+    print(error)  
+
   return credentials.token
 
 

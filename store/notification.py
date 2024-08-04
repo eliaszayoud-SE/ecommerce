@@ -29,7 +29,7 @@ def _get_access_token():
   
 
 
-  print('1')
+  print(service_account_info)
   
   try :
     credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)

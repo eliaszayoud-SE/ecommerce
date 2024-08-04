@@ -31,6 +31,8 @@ def _get_access_token():
   "universe_domain": "googleapis.com"
 }
 
+  print(service_account_info)
+
   try:
     credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
   

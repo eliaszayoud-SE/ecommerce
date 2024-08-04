@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from .models import *
 from .serializers import *
-
+from notification import send_notification
 
 @api_view(['GET'])
 def home_data(request):
@@ -24,6 +24,9 @@ def home_data(request):
     data['categories'] = cartegory_serializer.data
     data['items'] = item_serializer.data
     
+    send_notification()
+    print('send')
+
     return Response(data)
 
 

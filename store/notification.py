@@ -27,6 +27,12 @@ def _get_access_token():
   "universe_domain": "googleapis.com"
 } 
   
+  print(os.environ.get('PROJECT_ID'))
+  print(os.environ.get('PRIVATE_KEY_ID'))
+  print(os.environ.get('PRIVATE_KEY'))
+  print(os.environ.get('CLIENT_EMAIL'))
+  print(os.environ.get('CLIENT_ID'))
+
   print('1')
   credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
   print('2')

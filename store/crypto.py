@@ -10,7 +10,7 @@ fernet = Fernet(key)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-file_path = BASE_DIR + '/store/ecommerce-service.json'
+file_path = os.path.join(BASE_DIR , '/store/ecommerce-service.json')
 
 print(file_path)
 

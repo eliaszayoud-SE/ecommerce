@@ -8,7 +8,7 @@ key = os.environ.get("FERNET_KEY")
 
 fernet = Fernet(key)
 
-file_path = os.path.join(settings.BASE_DIR, 'ecommerce-service.json')
+file_path = os.path.join('https://ecommerce-r9vu.onrender.com',settings.BASE_DIR, 'ecommerce-service.json')
 
 def decrypt():
     with open(file_path, 'rb') as enc_file:

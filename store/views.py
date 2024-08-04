@@ -24,6 +24,7 @@ def home_data(request):
     data['categories'] = cartegory_serializer.data
     data['items'] = item_serializer.data
     
+    print('==========================================')
     send_notification(topic='users', title='Hi', message="how are you", pageid='', pagename='')
     print('send')
 

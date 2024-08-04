@@ -7,7 +7,7 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
 
-python "crypto.py"
+# python "crypto.py"
 
 # if [ $CREATE_SUPERUSER ];
 # then

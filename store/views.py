@@ -336,6 +336,15 @@ def approved_order(request):
         }) 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def view_notification(request):
+    user_id = request.user.id
+    notification = Notification.objects.filter(user_id=user_id).order_by('id')
+    notification_serializer = NotificationSerializer(notification, many=True)
+    return Response({'notification':notification_serializer.data})
+
+
+@api_view(['GET'])
 def notification_test(request):
     send_notification(title='Hi', message='Hi from fierbase', topic='users', pageid='', pagename='')
     return Response({'send':'send success'})

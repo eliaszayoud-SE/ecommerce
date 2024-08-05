@@ -73,3 +73,9 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'user_id', 'address_id', 'type', 'price_delivery', 'price', 'payment_type', 'coupon_id', 'status', 'date_time', 'total_price']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'user_id', 'title', 'body']

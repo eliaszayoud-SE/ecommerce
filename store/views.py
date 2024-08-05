@@ -322,8 +322,11 @@ def approved_order(request):
     user_id = request.data['user_id']
     order_id = request.data['order_id']
 
+    print(user_id)
+    
+
     try:
-        order = Order.objects.get(order_id=order_id, status='Pending Approval')
+        order = Order.objects.get(id=order_id, status=o)
         order.status = 1
         order.save()
         send_notification('success', 'The order has been Approved', topic=f'users{user_id}', pageid='', pagename='')

@@ -80,3 +80,8 @@ class Order(models.Model):
     status = models.SmallIntegerField(choices=ORDER_STATUS_CHOISES, default=0)
     date_time = models.DateTimeField(auto_now_add=True)
     total_price = models.FloatField(default=0)
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    body = models.CharField(max_length=255)

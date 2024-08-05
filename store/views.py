@@ -315,3 +315,8 @@ def view_archive_order(request):
     order_serializer = OrderSerializer(order, many=True)
 
     return Response({'order':order_serializer.data})
+
+@api_view(['GET'])
+def notification_test(request):
+    send_notification(title='Hi', message='Hi from fierbase', topic='users', pageid='', pagename='')
+    return Response({'send':'send success'})

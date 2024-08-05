@@ -25,6 +25,7 @@ urlpatterns = [
     path('checkout/', views.checkout),
     path('view_order/', views.view_pending_order),
     path('view_archive_order/', views.view_archive_order),
+    path('notification_test/', views.notification_test)
 ]
 
 urlpatterns += router.urls

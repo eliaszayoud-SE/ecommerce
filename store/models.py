@@ -85,3 +85,4 @@ class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     body = models.CharField(max_length=255)
+    date_time = models.DateTimeField(auto_now_add=True)

@@ -78,4 +78,4 @@ class OrderSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ['id', 'user_id', 'title', 'body']
+        fields = ['id', 'user_id', 'title', 'body', 'date_time']

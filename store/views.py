@@ -329,7 +329,7 @@ def approved_order(request):
         order = Order.objects.get(id=order_id, status=0)
         order.status = 1
         order.save()
-        send_notification('success', 'The order has been Approved', topic=f'users{user_id}', pageid='', pagename='')
+        send_notification('success', 'The order has been Approved', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
         return Response({'success':'The Notification is send'})
     
     except :

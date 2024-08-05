@@ -5,7 +5,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.db.models import Q
 from .models import *
 from .serializers import *
@@ -315,6 +315,24 @@ def view_archive_order(request):
     order_serializer = OrderSerializer(order, many=True)
 
     return Response({'order':order_serializer.data})
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def approved_order(request):
+    user_id = request.data['user_id']
+    order_id = request.data['order_id']
+
+    try:
+        order = Order.objects.get(order_id=order_id, status=0)
+        order.status = 1
+        order.save()
+        send_notification('success', 'The order has been Approved', topic=f'users{user_id}', pageid='', pagename='')
+        return Response({'success':'The Notification is send'})
+    
+    except :
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No order with the given id'
+        }) 
 
 @api_view(['GET'])
 def notification_test(request):

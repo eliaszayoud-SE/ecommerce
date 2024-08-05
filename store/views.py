@@ -316,7 +316,7 @@ def view_archive_order(request):
 
     return Response({'order':order_serializer.data})
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAdminUser])
 def approved_order(request):
     user_id = request.data['user_id']

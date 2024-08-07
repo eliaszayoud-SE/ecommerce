@@ -29,6 +29,7 @@ urlpatterns = [
     path('approved_order/', views.approved_order),
     path('view_notification/', views.view_notification),
     path('order_details/', views.order_details),
+    path('delete_order/', views.delete_order)
 ]
 
 urlpatterns += router.urls

@@ -366,6 +366,27 @@ def order_details(request):
         })
 
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_order(request):
+    
+    user_id = request.user.id
+    order_id = request.data['order_id']
+
+    try:
+        order = Order.objects.get(id=order_id, user_id=user_id)
+        if order.status > 0:
+              return Response(status=status.HTTP_400_BAD_REQUEST, data={
+                    'error':'you can not delete this order'
+                 })
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No Order with the given id'
+        })
+
 @api_view(['GET'])
 def notification_test(request):
     send_notification(title='Hi', message='Hi from fierbase', topic='users', pageid='', pagename='')

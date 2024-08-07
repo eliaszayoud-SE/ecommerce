@@ -283,15 +283,24 @@ def checkout(request):
             coupon.save() 
 
 
-
     if address_id == "0":
         address_id = None    
-
 
     try:
         order = Order.objects.create(user_id=user_id, price_delivery=price_delivery,address_id=address_id, type=type, price=price, payment_type=payment_type, coupon_id=coupon_id, total_price=total_price)
 
-        Cart.objects.filter(user_id=user_id, order_id=None).update(order_id=order.id)
+        carts_update_list = []
+
+        carts = Cart.objects.filter(user_id=user_id, order_id=None)
+        
+        for cart in carts :
+            cart.unit_price  = cart.product.price
+            cart.order_id = order.id
+            carts_update_list.append(cart)
+        
+        Cart.objects.bulk_update(carts_update_list, ['unit_price', 'order_id'])
+
+        # Cart.objects.filter(user_id=user_id, order_id=None).update(order_id=order.id)
     
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -342,6 +351,19 @@ def view_notification(request):
     notification = Notification.objects.filter(user_id=user_id).order_by('id')
     notification_serializer = NotificationSerializer(notification, many=True)
     return Response({'notification':notification_serializer.data})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def order_details(request):
+    order_id = request.query_params.get('order_id')
+    order_details = Cart.objects.filter(order_id=order_id)
+    if order_details.exists():
+        order_details_serializer = OrderDetailsSerializer(order_details, many=True)
+        return Response({'order_details':order_details_serializer.data})
+    
+    return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No orderDetails with the given id'
+        })
 
 
 @api_view(['GET'])

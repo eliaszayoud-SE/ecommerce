@@ -70,12 +70,26 @@ class CouponSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
     class Meta:
         model = Order
-        fields = ['id', 'user_id', 'address_id', 'type', 'price_delivery', 'price', 'payment_type', 'coupon_id', 'status', 'date_time', 'total_price']
+        fields = ['id', 'user_id', 'address', 'type', 'price_delivery', 'price', 'payment_type', 'coupon_id', 'status', 'date_time', 'total_price']
 
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = ['id', 'user_id', 'title', 'body', 'date_time']
+
+
+class SimpleItemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ['id', 'name', 'name_ar']
+
+
+class OrderDetailsSerializer(serializers.ModelSerializer):
+    product = SimpleItemsSerializer()
+    class Meta:
+        model = Cart
+        fields = ['id', 'qty', 'product', 'unit_price']

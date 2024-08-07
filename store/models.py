@@ -32,10 +32,11 @@ class Favorite(models.Model):
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 class Cart(models.Model):
-    order = models.ForeignKey('Order', on_delete=models.CASCADE, null=True, blank=True)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, null=True, blank=True, )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=1)
+    unit_price = models.FloatField(default=0)
 
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

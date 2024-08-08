@@ -399,9 +399,8 @@ def offers_item(request):
 def add_rating_to_archive_order(request):
     user_id = request.user.id
     order_id = request.data['order_id']
-    rating = int(request.data['rating'])
+    rating = request.data['rating']
     note = request.data['note']
-
 
     try:
         order = Order.objects.get(user_id=user_id, id=order_id, status=3)
@@ -414,8 +413,8 @@ def add_rating_to_archive_order(request):
         order.note = note
         order.save()
 
-        order_serialzer = OrderSerializer(order)
-        return Response(order_serialzer.data)
+        
+        return Response()
 
     except Exception as error:
         print(error)

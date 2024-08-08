@@ -388,6 +388,13 @@ def delete_order(request):
         })
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def offers_item(request):
+    items = Item.objects.exclude(discount=0)
+    item_serializer = ItemsSerializer(items, many=True)
+    return Response({'items':item_serializer.data})
+
+@api_view(['GET'])
 def notification_test(request):
     send_notification(title='Hi', message='Hi from fierbase', topic='users', pageid='', pagename='')
     return Response({'send':'send success'})

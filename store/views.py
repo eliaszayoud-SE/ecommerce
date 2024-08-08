@@ -402,6 +402,9 @@ def add_rating_to_archive_order(request):
     rating = request.data['rating']
     note = request.data['note']
 
+    print(order_id)
+    print(rating)
+    print(note)
 
     try:
         order = Order.objects.get(user_id=user_id, id=order_id, status=3)
@@ -418,6 +421,7 @@ def add_rating_to_archive_order(request):
         return Response(order_serialzer.data)
 
     except Exception as error:
+        print(error)
         return Response(status=status.HTTP_400_BAD_REQUEST, data={
             'detali':'No Order with the given id'
         })   

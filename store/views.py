@@ -399,12 +399,9 @@ def offers_item(request):
 def add_rating_to_archive_order(request):
     user_id = request.user.id
     order_id = request.data['order_id']
-    rating = request.data['rating']
+    rating = int(request.data['rating'])
     note = request.data['note']
 
-    print(order_id)
-    print(rating)
-    print(note)
 
     try:
         order = Order.objects.get(user_id=user_id, id=order_id, status=3)

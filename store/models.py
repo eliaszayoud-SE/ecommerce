@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth import  get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 User = get_user_model()
 
@@ -82,6 +83,9 @@ class Order(models.Model):
     status = models.SmallIntegerField(choices=ORDER_STATUS_CHOISES, default=0)
     date_time = models.DateTimeField(auto_now_add=True)
     total_price = models.FloatField(default=0)
+    rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(1), MinValueValidator(1)], null=True, blank=True)
+    note = models.CharField(max_length=255, null=True, blank=True)
+
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

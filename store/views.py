@@ -10,13 +10,24 @@ from django.db.models import Q
 from .models import *
 from .serializers import *
 from .notification import send_notification
+from django.db.models import Count
+from django.db.models import Sum
+
 
 @api_view(['GET'])
 def home_data(request):
     categories = Category.objects.all()
     cartegory_serializer = CategorySerializer(categories, many=True)
 
-    items = Item.objects.exclude(discount=0)
+    top_selling_products = Cart.objects \
+        .values('product_id') \
+        .annotate(total_qty_sold=Sum('qty')) \
+        .order_by('-total_qty_sold')[:10]
+        
+    top_selling_product_ids = [item['product_id'] for item in top_selling_products]
+
+    items = Item.objects.filter(id__in=top_selling_product_ids)
+
     item_serializer = ItemsSerializer(items, many=True)
 
     

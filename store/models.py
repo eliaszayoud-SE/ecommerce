@@ -69,6 +69,7 @@ class Order(models.Model):
         (0, 'Pending Approval'),
         (1, 'The Order is Being Prepared'),
         (2, 'On the Way'),
+        (3, 'The order has been delivered')
     ]
 
     user = models.ForeignKey(User, on_delete=models.PROTECT)

@@ -311,7 +311,7 @@ def checkout(request):
 @permission_classes([IsAuthenticated])
 def view_pending_order(request):
     user_id = request.user.id
-    order = Order.objects.filter(user_id=user_id)
+    order = Order.objects.filter(user_id=user_id, status__lt=3)
     order_serializer = OrderSerializer(order, many=True)
 
     return Response({'order':order_serializer.data})
@@ -320,7 +320,7 @@ def view_pending_order(request):
 @permission_classes([IsAuthenticated])
 def view_archive_order(request):
     user_id = request.user.id
-    order = Order.objects.filter(user_id=user_id)
+    order = Order.objects.filter(user_id=user_id, status=3)
     order_serializer = OrderSerializer(order, many=True)
 
     return Response({'order':order_serializer.data})

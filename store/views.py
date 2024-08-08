@@ -26,14 +26,19 @@ def home_data(request):
         
     top_selling_product_ids = [item['product_id'] for item in top_selling_products]
 
+
     items = Item.objects.filter(id__in=top_selling_product_ids)
 
     item_serializer = ItemsSerializer(items, many=True)
 
-    
+    settings = Settings.objects.all().order_by('-id').first()
+
+    settings_serializer = SettingsSerializer(settings)
+
     data = {}
     data['categories'] = cartegory_serializer.data
     data['items'] = item_serializer.data
+    data['settings'] = settings_serializer.data
 
     return Response(data)
 

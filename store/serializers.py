@@ -93,3 +93,9 @@ class OrderDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ['id', 'qty', 'product', 'unit_price']
+
+
+class SettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Settings
+        fields = ['id', 'title', 'body']

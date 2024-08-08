@@ -92,3 +92,8 @@ class Notification(models.Model):
     title = models.CharField(max_length=255)
     body = models.CharField(max_length=255)
     date_time = models.DateTimeField(auto_now_add=True)
+
+
+class Settings(models.Model):
+    title = models.CharField(max_length=50)
+    body = models.CharField(max_length=255)

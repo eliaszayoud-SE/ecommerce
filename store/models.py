@@ -83,7 +83,7 @@ class Order(models.Model):
     status = models.SmallIntegerField(choices=ORDER_STATUS_CHOISES, default=0)
     date_time = models.DateTimeField(auto_now_add=True)
     total_price = models.FloatField(default=0)
-    rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(1), MinValueValidator(1)], null=True, blank=True)
+    rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], null=True, blank=True)
     note = models.CharField(max_length=255, null=True, blank=True)
 
 

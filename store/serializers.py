@@ -73,7 +73,7 @@ class OrderSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     class Meta:
         model = Order
-        fields = ['id', 'user_id', 'address', 'type', 'price_delivery', 'price', 'payment_type', 'coupon_id', 'status', 'date_time', 'total_price']
+        fields = ['id', 'user_id', 'address', 'type', 'price_delivery', 'price', 'payment_type', 'coupon_id', 'status', 'date_time', 'total_price', 'rating', 'note']
 
 
 class NotificationSerializer(serializers.ModelSerializer):

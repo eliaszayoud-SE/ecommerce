@@ -394,6 +394,34 @@ def offers_item(request):
     item_serializer = ItemsSerializer(items, many=True)
     return Response({'items':item_serializer.data})
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_rating_to_archive_order(request):
+    user_id = request.user.id
+    order_id = request.data['order_id']
+    rating = request.data['rating']
+    note = request.data['note']
+
+
+    try:
+        order = Order.objects.get(user_id=user_id, id=order_id, status=3)
+        if order.rating is not None:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'error':'You can not edit the rating'
+        }) 
+
+        order.rating = rating
+        order.note = note
+        order.save()
+
+        order_serialzer = OrderSerializer(order)
+        return Response(order_serialzer.data)
+
+    except Exception as error:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No Order with the given id'
+        })   
+
 @api_view(['GET'])
 def notification_test(request):
     send_notification(title='Hi', message='Hi from fierbase', topic='users', pageid='', pagename='')

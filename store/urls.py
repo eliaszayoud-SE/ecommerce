@@ -30,7 +30,8 @@ urlpatterns = [
     path('view_notification/', views.view_notification),
     path('order_details/', views.order_details),
     path('delete_order/', views.delete_order),
-    path('offers_item/', views.offers_item)
+    path('offers_item/', views.offers_item),
+    path('add_rating_to_archive_order/', views.add_rating_to_archive_order)
 ]
 
 urlpatterns += router.urls

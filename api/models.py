@@ -51,6 +51,7 @@ class CustomUser(AbstractUser):
     
     verify_code = models.CharField(default=generate_random_verify_code, max_length=5)
     phone = models.CharField(max_length=30, unique=True)
+    is_delivery = models.BooleanField(default=False)
 
     def __str__(self):
         return self.email

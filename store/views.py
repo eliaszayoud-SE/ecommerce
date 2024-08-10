@@ -426,13 +426,7 @@ def order_deliverd(request):
             'detali':'No order with the given id'
         })  
     
-@api_view(['GET'])
-@permission_classes([IsDeliveryUser]) 
-def view_order_for_delivery(request):
-    user_id = request.user.id
-    order = Order.objects.filter(Q(status=2) | (Q(status=3) & Q(delivery=user_id)) )
-    order_serializer = OrderSerializer(order, many=True)
-    return Response({'order':order_serializer.data})
+
 
 @api_view(['GET'])
 @permission_classes([IsDeliveryUser]) 

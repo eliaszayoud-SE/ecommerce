@@ -396,14 +396,15 @@ def order_approved_by_delivery(request):
     try:
         order = Order.objects.get(id=order_id, status=2)
         order.status = 3
-        order.delivery = request.user.username
+        order.delivery = request.user.id
         order.save()
         send_notification('success', 'The order is on the way', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
         send_notification('warning', f'The order has been Approved by delivery {request.user.username}', 'delivery', '', '')
         send_notification('warning', 'The order has been Approved by delivery', 'services', '', '')
         return Response({'success':'The Notification is send'})
     
-    except :
+    except Exception as error :
+        print(error)
         return Response(status=status.HTTP_400_BAD_REQUEST, data={
             'detali':'No order with the given id'
         })   

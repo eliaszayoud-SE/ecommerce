@@ -69,8 +69,9 @@ class Order(models.Model):
     ORDER_STATUS_CHOISES = [
         (0, 'Pending Approval'),
         (1, 'The Order is Being Prepared'),
-        (2, 'On the Way'),
-        (3, 'The order has been delivered')
+        (2,'The order has been prepared'),
+        (3, 'On the Way'),
+        (4, 'The order has been delivered')
     ]
 
     user = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -85,6 +86,7 @@ class Order(models.Model):
     total_price = models.FloatField(default=0)
     rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], null=True, blank=True)
     note = models.CharField(max_length=255, null=True, blank=True)
+    delivery = models.PositiveIntegerField(default=0)
 
 
 class Notification(models.Model):

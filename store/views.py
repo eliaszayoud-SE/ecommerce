@@ -12,7 +12,7 @@ from .serializers import *
 from .notification import send_notification
 from django.db.models import Count
 from django.db.models import Sum
-
+from .permissions import IsDeliveryUser
 
 @api_view(['GET'])
 def home_data(request):
@@ -359,6 +359,121 @@ def approved_order(request):
         return Response(status=status.HTTP_400_BAD_REQUEST, data={
             'detali':'No order with the given id'
         }) 
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def order_prepared(request):
+    user_id = request.data['user_id']
+    order_id = request.data['order_id']
+    order_type = request.data['order_type']
+
+    try:
+        order = Order.objects.get(id=order_id, status=1)
+        if order_type == '0':       
+            order.status = 2
+            order.save()
+            send_notification('success', 'The order has been prepare', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
+            send_notification('warning', 'there is orders awating approval', 'delivery', '', '')
+        
+        else :
+            order.status = 4
+            order.save()
+            send_notification('success', 'The order has been deliverd', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
+
+        return Response({'success':'The Notification is send'})
+    
+    except :
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No order with the given id'
+        }) 
+    
+@api_view(['POST'])
+@permission_classes([IsDeliveryUser])
+def order_approved_by_delivery(request):
+    user_id = request.data['user_id']
+    order_id = request.data['order_id']
+
+    try:
+        order = Order.objects.get(id=order_id, status=2)
+        order.status = 3
+        order.save()
+        send_notification('success', 'The order is on the way', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
+        send_notification('warning', f'The order has been Approved by delivery {request.user.username}', 'delivery', '', '')
+        send_notification('warning', 'The order has been Approved by delivery', 'services', '', '')
+        return Response({'success':'The Notification is send'})
+    
+    except :
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No order with the given id'
+        })   
+
+@api_view(['POST'])
+@permission_classes([IsDeliveryUser])  
+def order_deliverd(request):
+    user_id = request.data['user_id']
+    order_id = request.data['order_id']
+
+    try:
+        order = Order.objects.get(id=order_id, status=3)
+        order.status = 4
+        order.save()
+        send_notification('success', 'The order has been deliverd', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
+        send_notification('warning', 'The order has been deliverd to The customer', 'services', '', '')
+        return Response({'success':'The Notification is send'})
+    
+    except :
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No order with the given id'
+        })  
+    
+@api_view(['GET'])
+@permission_classes([IsDeliveryUser]) 
+def view_order_for_delivery(request):
+    user_id = request.user.id
+    order = Order.objects.filter(Q(status=2) | (Q(status=3) & Q(delivery=user_id)) )
+    order_serializer = OrderSerializer(order, many=True)
+    return Response({'order':order_serializer.data})
+
+@api_view(['GET'])
+@permission_classes([IsDeliveryUser]) 
+def view_bending_order_for_delivery(request):
+    order = Order.objects.filter(status=2)
+    order_serializer = OrderSerializer(order, many=True)
+    return Response({'order':order_serializer.data})
+
+
+@api_view(['GET'])
+@permission_classes([IsDeliveryUser]) 
+def view_accepted_order_for_delivery(request):
+    user_id = request.user.id
+    order = Order.objects.filter(status=3, user_id=user_id)
+    order_serializer = OrderSerializer(order, many=True)
+    return Response({'order':order_serializer.data})
+
+
+
+@api_view(['GET'])
+@permission_classes([IsDeliveryUser]) 
+def view_archive_order_for_delivery(request):
+    user_id = request.user.id
+    order = Order.objects.filter(status=4, delivery= user_id)
+    order_serializer = OrderSerializer(order, many=True)
+    return Response({'order':order_serializer.data})
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def view_order_for_admin(request):
+    order = Order.objects.filter(status__lt=4)
+    order_serializer = OrderSerializer(order, many=True)
+    return Response({'order':order_serializer.data})
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def view_archive_order_for_admin(request):
+    order = Order.objects.filter(status=4)
+    order_serializer = OrderSerializer(order, many=True)
+    return Response({'order':order_serializer.data})
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

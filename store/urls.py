@@ -31,7 +31,15 @@ urlpatterns = [
     path('order_details/', views.order_details),
     path('delete_order/', views.delete_order),
     path('offers_item/', views.offers_item),
-    path('add_rating_to_archive_order/', views.add_rating_to_archive_order)
+    path('order_prepared/', views.order_prepared),
+    path('order_approved_by_delivery/', views.order_approved_by_delivery),
+    path('order_deliverd/', views.order_deliverd),
+    path('view_archive_order_for_delivery/', views.view_archive_order_for_delivery),
+    path('view_bending_order_for_delivery/', views.view_bending_order_for_delivery),
+    path('view_accepted_order_for_delivery/', views.view_accepted_order_for_delivery),
+    path('view_order_for_admin/', views.view_order_for_admin),
+    path('view_archive_order_for_admin/', views.view_archive_order_for_admin),
+
 ]
 
 urlpatterns += router.urls

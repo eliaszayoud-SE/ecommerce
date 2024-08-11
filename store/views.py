@@ -366,10 +366,8 @@ def order_prepared(request):
     user_id = request.data['user_id']
     order_id = request.data['order_id']
     order_type = request.data['order_type']
-    print(type(order_type))
     try:
         order = Order.objects.get(id=order_id, status=1)
-        print(order_type == "0")
         if order_type == "0":       
             order.status = 2
             order.save()
@@ -402,6 +400,7 @@ def order_approved_by_delivery(request):
         order.save()
         send_notification('success', 'The order is on the way', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
         send_notification('warning', f'The order has been Approved by delivery {request.user.username}', 'delivery', '', 'refreshorderpending')
+        send_notification('warning', f'The order has been Approved by delivery', f'delivery{request.user.id}', '', 'refreshorderaccepted')
         send_notification('warning', 'The order has been Approved by delivery', 'services', '', '')
         return Response({'success':'The Notification is send'})
     

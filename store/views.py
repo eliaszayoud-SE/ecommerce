@@ -369,7 +369,7 @@ def order_prepared(request):
 
     try:
         order = Order.objects.get(id=order_id, status=1)
-        if order_type == '0':       
+        if order_type == 0:       
             order.status = 2
             order.save()
             send_notification('success', 'The order has been prepare', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
@@ -382,7 +382,8 @@ def order_prepared(request):
 
         return Response({'success':'The Notification is send'})
     
-    except :
+    except Exception as error :
+        print(error)
         return Response(status=status.HTTP_400_BAD_REQUEST, data={
             'detali':'No order with the given id'
         }) 

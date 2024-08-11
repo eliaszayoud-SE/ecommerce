@@ -366,15 +366,16 @@ def order_prepared(request):
     user_id = request.data['user_id']
     order_id = request.data['order_id']
     order_type = request.data['order_type']
-
+    print(type(order_type))
     try:
         order = Order.objects.get(id=order_id, status=1)
-        if order_type == 0:       
+        print(order_type == "0")
+        if order_type == "0":       
             order.status = 2
             order.save()
             send_notification('success', 'The order has been prepare', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
-            send_notification('warning', 'there is orders awating approval', 'delivery', '', 'refreshorderpending')
-        
+            send_notification('warning', f'there is orders awating approval', 'delivery', '', 'refreshorderpending')
+
         else :
             order.status = 4
             order.save()

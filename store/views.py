@@ -373,7 +373,7 @@ def order_prepared(request):
             order.status = 2
             order.save()
             send_notification('success', 'The order has been prepare', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
-            send_notification('warning', 'there is orders awating approval', 'delivery', '', '')
+            send_notification('warning', 'there is orders awating approval', 'delivery', '', 'refreshorderpending')
         
         else :
             order.status = 4
@@ -399,7 +399,7 @@ def order_approved_by_delivery(request):
         order.delivery = request.user.id
         order.save()
         send_notification('success', 'The order is on the way', topic=f'users{user_id}', pageid='', pagename='refreshorderpending')
-        send_notification('warning', f'The order has been Approved by delivery {request.user.username}', 'delivery', '', '')
+        send_notification('warning', f'The order has been Approved by delivery {request.user.username}', 'delivery', '', 'refreshorderpending')
         send_notification('warning', 'The order has been Approved by delivery', 'services', '', '')
         return Response({'success':'The Notification is send'})
     
@@ -411,7 +411,7 @@ def order_approved_by_delivery(request):
 
 @api_view(['POST'])
 @permission_classes([IsDeliveryUser])  
-def order_deliverd(request):
+def order_delivery(request):
     user_id = request.data['user_id']
     order_id = request.data['order_id']
 

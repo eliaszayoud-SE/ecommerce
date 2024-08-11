@@ -33,7 +33,7 @@ urlpatterns = [
     path('offers_item/', views.offers_item),
     path('order_prepared/', views.order_prepared),
     path('order_approved_by_delivery/', views.order_approved_by_delivery),
-    path('order_deliverd/', views.order_deliverd),
+    path('order_delivery/', views.order_delivery),
     path('view_archive_order_for_delivery/', views.view_archive_order_for_delivery),
     path('view_bending_order_for_delivery/', views.view_bending_order_for_delivery),
     path('view_accepted_order_for_delivery/', views.view_accepted_order_for_delivery),

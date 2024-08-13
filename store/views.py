@@ -554,22 +554,61 @@ def add_rating_to_archive_order(request):
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def add_categories(request):
-    pass
+    name = request.data['name']
+    name_ar = request.data['name_ar']
+    image_file = request.FILES.get('image_file')
+    print(request.FILES.get('image_file'))
+
+    category = Category.objects.create(name=name, name_ar=name_ar, image=image_file)
+    category_serializer = CategorySerializer(category)
+    return Response(category_serializer.data)
+
+
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def edit_categories(request):
-    pass
+    name = request.data['name']
+    name_ar = request.data['name_ar']
+    category_id = request.data['category_id']
+    image_file = request.FILES.get('image_file')
+
+    try:
+        category = Category.objects.get(id=category_id)
+        category.name = name
+        category.name_ar = name_ar
+        if image_file !=None:
+            category.image.delete(save=True)
+            category.image = image_file
+        category.save()
+        category_serializer = CategorySerializer(category)
+        return Response(category_serializer.data)
+
+    except Exception as error:  
+        print(error)
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No category with the given id'
+        })
 
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])
 def delete_categories(request):
-    pass
+    category_id = request.data['category_id']
+    try:
+        category = Category.objects.get(id=category_id)
+        category.delete()
+        return Response()
+    except Exception as error:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No category with the given id'
+        })
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def view_categories(request):
-    pass
+    category = Category.objects.all()
+    category_serializer = CategorySerializer(category, many=True)
+    return Response({'categories':category_serializer.data})
 
 
 @api_view(['GET'])

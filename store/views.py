@@ -550,6 +550,28 @@ def add_rating_to_archive_order(request):
             'detali':'No Order with the given id'
         })   
 
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def add_categories(request):
+    pass
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def edit_categories(request):
+    pass
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def delete_categories(request):
+    pass
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def view_categories(request):
+    pass
+
+
 @api_view(['GET'])
 def notification_test(request):
     send_notification(title='Hi', message='Hi from fierbase', topic='users', pageid='', pagename='')

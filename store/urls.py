@@ -39,6 +39,11 @@ urlpatterns = [
     path('view_accepted_order_for_delivery/', views.view_accepted_order_for_delivery),
     path('view_order_for_admin/', views.view_order_for_admin),
     path('view_archive_order_for_admin/', views.view_archive_order_for_admin),
+    path('add_categories/', views.add_categories),
+    path('view_categories/', views.view_categories),
+    path('delete_categories/', views.delete_categories),
+    path('edit_categories/', views.edit_categories),
+
 
 ]
 

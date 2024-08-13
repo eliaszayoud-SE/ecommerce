@@ -46,7 +46,7 @@ urlpatterns = [
     path('add_item/', views.add_item),
     path('view_items/', views.view_items),
     path('delete_item/', views.delete_item),
-    path('update_items/', views.update_item)
+    path('update_item/', views.update_item)
 ]
 
 urlpatterns += router.urls

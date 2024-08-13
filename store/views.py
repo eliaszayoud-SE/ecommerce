@@ -642,7 +642,7 @@ def add_item(request):
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
-def view_item(request):    
+def view_items(request):    
     category_id = request.query_params.get('category_id')
     item = Item.objects.filter(category_id=category_id)
     item_serializer = ItemsSerializer(item, many=True)

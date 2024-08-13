@@ -613,7 +613,7 @@ def view_categories(request):
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
-def add_items(request):
+def add_item(request):
     category_id = request.data['category_id']
     name = request.data['name']
     name_ar = request.data['name_ar']
@@ -642,7 +642,7 @@ def add_items(request):
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
-def view_item_for_admin(request):    
+def view_item(request):    
     category_id = request.query_params.get('category_id')
     item = Item.objects.filter(category_id=category_id)
     item_serializer = ItemsSerializer(item, many=True)
@@ -665,7 +665,7 @@ def delete_item(request):
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
-def update_items(request):
+def update_item(request):
     item_id = request.data['item_id']
     name = request.data['name']
     name_ar = request.data['name_ar']

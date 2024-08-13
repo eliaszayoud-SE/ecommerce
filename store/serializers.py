@@ -99,3 +99,10 @@ class SettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Settings
         fields = ['id', 'title', 'body']
+
+
+class CustomItemsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Item
+        fields = ['id',  'category_id', 'name', 'active' ,'name_ar', 'description', 'description_ar', 'image', 'count', 'price', 'discount', 'date']

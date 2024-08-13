@@ -43,6 +43,10 @@ urlpatterns = [
     path('view_categories/', views.view_categories),
     path('delete_categories/', views.delete_categories),
     path('edit_categories/', views.edit_categories),
+    path('add_items/', views.add_items),
+    path('view_item_for_admin/', views.view_item_for_admin),
+    path('delete_item/', views.delete_item),
+    path('update_items/', views.update_items)
 ]
 
 urlpatterns += router.urls

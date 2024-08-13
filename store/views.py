@@ -596,8 +596,9 @@ def delete_categories(request):
     category_id = request.data['category_id']
     try:
         category = Category.objects.get(id=category_id)
+        category.image.delete(save=True)
         category.delete()
-        return Response()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     except Exception as error:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={
             'detali':'No category with the given id'
@@ -609,6 +610,106 @@ def view_categories(request):
     category = Category.objects.all()
     category_serializer = CategorySerializer(category, many=True)
     return Response({'categories':category_serializer.data})
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def add_items(request):
+    category_id = request.data['category_id']
+    name = request.data['name']
+    name_ar = request.data['name_ar']
+    description = request.data['description']
+    description_ar = request.data['description_ar']   
+    count = request.data['count']
+    active = request.data['active']
+    price = request.data['price']
+    discount = request.data.get('discount')
+    image_file = request.FILES.get('image_file')
+    print(request.FILES.get('image_file'))
+    print(request.data.get('discount'))
+
+    if discount == None:
+        discount = 0
+
+    if active == '0':
+       active = False
+    else:
+        active = True    
+
+    item = Item.objects.create(category_id=category_id, name=name, name_ar=name_ar,description=description, description_ar=description_ar,count=count,active=active,
+                               price=price, discount=discount, image=image_file)
+    item_serializer = CustomItemsSerializer(item)
+    return Response(item_serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def view_item_for_admin(request):    
+    category_id = request.query_params.get('category_id')
+    item = Item.objects.filter(category_id=category_id)
+    item_serializer = ItemsSerializer(item, many=True)
+    return Response(item_serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def delete_item(request):
+    item_id = request.data['item_id']
+    try:
+        item = Item.objects.get(id=item_id)
+        item.image.delete(save=True)
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No item with the given id'
+        })
+    
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def update_items(request):
+    item_id = request.data['item_id']
+    name = request.data['name']
+    name_ar = request.data['name_ar']
+    description = request.data['description']
+    description_ar = request.data['description_ar']   
+    count = request.data['count']
+    active = request.data['active']
+    price = request.data['price']
+    discount = request.data.get('discount')
+    image_file = request.FILES.get('image_file')
+    print(request.FILES.get('image_file'))
+    print(request.data.get('discount'))
+
+    if discount == None:
+        discount = 0
+
+    if active == '0':
+       active = False
+    else:
+        active = True    
+
+    try:
+        item = Item.objects.get(id=item_id)
+        item.name = name
+        item.name_ar = name_ar
+        item.description = description
+        item.description_ar = description_ar
+        item.count = count
+        item.active = active
+        item.price = price
+        item.discount = discount
+        if image_file !=None :
+            item.image.delete(save=True)
+            item.image = image_file
+
+        item.save()
+        item_serializer =  CustomItemsSerializer(item)
+        return Response(item_serializer.data) 
+
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No item with the given id'
+        })
+
 
 
 @api_view(['GET'])

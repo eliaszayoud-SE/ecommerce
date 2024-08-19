@@ -629,7 +629,7 @@ def add_item(request):
     if discount == None:
         discount = 0
         
-    item = Item.objects.create(category_id=category_id, name=name, name_ar=name_ar,description=description, description_ar=description_ar,count=count,active=active,
+    item = Item.objects.create(category_id=category_id, name=name, name_ar=name_ar,description=description, description_ar=description_ar,count=count,
                                price=price, discount=discount, image=image_file)
     item_serializer = CustomItemsSerializer(item)
     return Response(item_serializer.data)

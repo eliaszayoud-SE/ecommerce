@@ -620,7 +620,6 @@ def add_item(request):
     description = request.data['description']
     description_ar = request.data['description_ar']   
     count = request.data['count']
-    active = request.data['active']
     price = request.data['price']
     discount = request.data.get('discount')
     image_file = request.FILES.get('image_file')
@@ -629,12 +628,7 @@ def add_item(request):
 
     if discount == None:
         discount = 0
-
-    if active == '0':
-       active = False
-    else:
-        active = True    
-
+        
     item = Item.objects.create(category_id=category_id, name=name, name_ar=name_ar,description=description, description_ar=description_ar,count=count,active=active,
                                price=price, discount=discount, image=image_file)
     item_serializer = CustomItemsSerializer(item)

@@ -638,7 +638,7 @@ def add_item(request):
 @permission_classes([IsAdminUser])
 def view_items(request):    
     item = Item.objects.all()
-    item_serializer = ItemsSerializer(item, many=True)
+    item_serializer = CustomItemsSerializer(item, many=True)
     return Response({'items':item_serializer.data})
 
 @api_view(['DELETE'])
